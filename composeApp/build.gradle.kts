@@ -45,10 +45,10 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
-    var releaseStoreFile =  System.getenv("RELEASE_KEYSTORE") ?: ""
-    var releaseKeyPassword =  System.getenv("RELEASE_KEY_PW") ?: ""
-    var releaseKeyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: ""
-    var releaseStorePassword = System.getenv("RELEASE_KEYSTORE_PW") ?: ""
+    var releaseStoreFile =  ""
+    var releaseKeyPassword =   ""
+    var releaseKeyAlias = ""
+    var releaseStorePassword = ""
 
     try {
         val properties = Properties()
