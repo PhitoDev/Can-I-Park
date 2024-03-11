@@ -22,7 +22,8 @@ class AndroidOcrClient(private val recognizer: TextRecognizer) : OcrClient {
         val inputImage = toInputImage(image, width, height, rotationDegrees, format)
         recognizer.process(inputImage)
             .addOnSuccessListener { result ->
-                continuation.resume(result.text)
+                val text = result.textBlocks.joinToString(" ") { it.text.replace("\n", " ") }
+                continuation.resume(text)
             }
             .addOnFailureListener { e ->
                 continuation.resumeWithException(e)
@@ -39,7 +40,8 @@ class AndroidOcrClient(private val recognizer: TextRecognizer) : OcrClient {
         val inputImage = InputImage.fromBitmap(bitmap, rotationDegrees)
         recognizer.process(inputImage)
             .addOnSuccessListener { result ->
-                it.resume(result.text)
+                val text = result.textBlocks.joinToString(" ") { it.text.replace("\n", " " ) }
+                it.resume(text)
             }
             .addOnFailureListener { e ->
                 it.resumeWithException(e)

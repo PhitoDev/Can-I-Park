@@ -9,9 +9,18 @@ plugins {
 }
 
 buildConfig {
-    val properties = Properties()
-    properties.load(rootProject.file("local.properties").reader())
-    buildConfigField("String", "API_KEY", properties.getProperty("apiKey"))
+    var apiKey = System.getenv("API_KEY") ?: ""
+    butIf(apiKey.isEmpty()) {
+        try {
+            val properties = Properties()
+            properties.load(rootProject.file("local.properties").reader())
+            apiKey = properties.getProperty("apiKey")
+        } catch (e: Exception) {
+            println("API_KEY not found in local.properties")
+
+        }
+    }
+    buildConfigField("String", "API_KEY", apiKey)
 }
 
 kotlin {
