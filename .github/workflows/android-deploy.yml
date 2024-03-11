@@ -44,5 +44,8 @@ jobs:
               releaseName: ${{ github.run_number }}
               whatsNew: "Automated deployment of build ${{ github.run_number }}"
 
+        - name: Delete build directory
+          run: rm -rf composeApp/build
+
 env:
   API_KEY: ${{ secrets.API_KEY }}
