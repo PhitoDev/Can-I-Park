@@ -25,10 +25,13 @@ jobs:
         - name: Grant execute permission for gradlew
           run: chmod +x gradlew
 
+        - name: Build output directory
+          run: mkdir -p composeApp/build/outputs/bundle/release
+
         - name: Sign AAB
           uses: r0adkll/sign-android-release@v1
           with:
-              releaseDirectory: app/build/outputs/bundle/release
+              releaseDirectory: composeApp/build/outputs/bundle/release
               signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
               alias: ${{ secrets.KEY_ALIAS }}
               keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}

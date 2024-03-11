@@ -1,6 +1,6 @@
 *.iml
 .gradle
-shared/build/
+**/build/
 xcuserdata
 !src/**/build/
 !src/**/release/

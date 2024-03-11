@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.3
         with:
           name: canipark-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: composeApp/build/outputs/apk/debug/app-debug.apk
 
       - name: Delete build directory
         run: rm -rf composeApp/build
