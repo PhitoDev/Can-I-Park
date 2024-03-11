@@ -69,11 +69,13 @@ android {
         versionName = "1.01"
     }
     signingConfigs {
-        create("release") {
-            storeFile = rootProject.file(releaseStoreFile)
-            storePassword = releaseStorePassword
-            keyAlias = releaseKeyAlias
-            keyPassword = releaseKeyPassword
+        if (releaseStoreFile.isNotEmpty()) {
+            create("release") {
+                storeFile = file(releaseStoreFile)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
         }
     }
     packaging {
