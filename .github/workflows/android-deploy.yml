@@ -25,8 +25,8 @@ jobs:
         - name: Grant execute permission for gradlew
           run: chmod +x gradlew
 
-        - name: Build output directory
-          run: mkdir -p composeApp/build/outputs/bundle/release
+        - name: Build bundle
+          run: ./gradlew bundleRelease
 
         - name: Sign AAB
           uses: r0adkll/sign-android-release@v1
