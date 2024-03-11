@@ -1,6 +1,7 @@
 package com.dugue.canipark.ui.camera
 
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
@@ -23,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,7 +63,7 @@ fun CameraScreen(
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.height(200.dp).width(200.dp),
+                    modifier = Modifier.height(100.dp).width(100.dp),
                     color = MaterialTheme.colors.primary,
                     strokeWidth = 15.dp
                 )
@@ -134,18 +137,24 @@ private fun MessageDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
-                .background(
-                    color = if (isPositive) MaterialTheme.colors.primary else MaterialTheme.colors.error
-                ),
+                .padding(8.dp),
             shape = RoundedCornerShape(8.dp),
         ) {
             Column(
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Image(
+                    imageVector = if (isPositive) ImageVector.vectorResource(id = R.drawable.ic_check) else ImageVector.vectorResource(id = R.drawable.ic_error),
+                    contentDescription = "Result",
+                    modifier = Modifier.size(96.dp),
+                    colorFilter = ColorFilter.tint(
+                        if (isPositive) MaterialTheme.colors.primary else MaterialTheme.colors.error
+                    )
+                )
                 Text(
                     text = message,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.body1
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(

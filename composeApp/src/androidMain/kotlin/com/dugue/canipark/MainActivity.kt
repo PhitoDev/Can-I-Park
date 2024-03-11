@@ -146,34 +146,6 @@ class MainActivity : ComponentActivity() {
         )
     }
 
-    private fun jpegImageProxyToYUV420_888(imageProxy: ImageProxy): ByteArray {
-        val imageWidth = imageProxy.width
-        val imageHeight = imageProxy.height
-
-        // Y, U, V Plane Buffers (Simplified)
-        val yBuffer = imageProxy.planes[0].buffer
-        val uBuffer = imageProxy.planes[1].buffer
-        val vBuffer = imageProxy.planes[2].buffer
-
-        // Calculate sizes
-        val ySize = imageWidth * imageHeight
-        val uvSize = imageWidth * imageHeight / 4
-
-        // Allocate output byte array
-        val yuvBytes = ByteArray(ySize + uvSize * 2)
-
-        // Copy Y plane directly
-        yBuffer.get(yuvBytes, 0, ySize)
-
-        // Interleave U and V (Simplified, might need adjustment)
-        for (i in 0 until uvSize) {
-            yuvBytes[ySize + i * 2] = vBuffer.get(i)
-            yuvBytes[ySize + i * 2 + 1] = uBuffer.get(i)
-        }
-
-        return yuvBytes
-    }
-
     @OptIn(ExperimentalEncodingApi::class)
     private fun encodeBitmapToString(bitmap: Bitmap): String {
         val stream = ByteArrayOutputStream()

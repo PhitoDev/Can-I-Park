@@ -45,10 +45,10 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
-    var releaseStoreFile =  System.getenv("RELEASE_KEYSTORE") ?: ""
-    var releaseKeyPassword =  System.getenv("RELEASE_KEY_PW") ?: ""
-    var releaseKeyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: ""
-    var releaseStorePassword = System.getenv("RELEASE_KEYSTORE_PW") ?: ""
+    var releaseStoreFile =  ""
+    var releaseKeyPassword =   ""
+    var releaseKeyAlias = ""
+    var releaseStorePassword = ""
 
     try {
         val properties = Properties()
@@ -65,15 +65,17 @@ android {
         applicationId = "com.dugue.canipark"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.01"
     }
     signingConfigs {
         create("release") {
-            storeFile = rootProject.file(releaseStoreFile)
-            storePassword = releaseStorePassword
-            keyAlias = releaseKeyAlias
-            keyPassword = releaseKeyPassword
+            if (releaseStoreFile.isNotEmpty() && releaseKeyAlias.isNotEmpty() && releaseStorePassword.isNotEmpty() && releaseKeyPassword.isNotEmpty()) {
+                storeFile = file(releaseStoreFile)
+                storePassword = releaseStorePassword
+                keyAlias = releaseKeyAlias
+                keyPassword = releaseKeyPassword
+            }
         }
     }
     packaging {
@@ -86,6 +88,9 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        getByName("debug") {
+            isDebuggable = true
         }
     }
     compileOptions {

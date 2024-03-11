@@ -21,7 +21,7 @@ class ParkingSignsRepositoryImpl(
                 request.format
             )
             val llmResponse = llmClient.generateResponse(formatPrompt(ocrResponse))
-            val parkingResponse = Json.decodeFromString<ParkingResponse>(llmResponse)
+            val parkingResponse = parkingResponseFromJson(llmResponse)
             Result.success(parkingResponse)
         } catch (e: Exception) {
             Result.failure(e)
@@ -37,6 +37,17 @@ class ParkingSignsRepositoryImpl(
             Result.failure(e)
         }
 
+    private suspend fun parkingResponseFromJson(ocrResponse: String): ParkingResponse = try {
+        val llmResponse = llmClient.generateResponse(formatPrompt(ocrResponse))
+        Json.decodeFromString(llmResponse)
+    } catch (e: Exception) {
+        ParkingResponse(
+            canIPark = false,
+            howLong = null,
+            cost = null,
+            reasonIfNo = e.message
+        )
+    }
     /**
      * This function takes  The text from an ocr analyzer and formats it into a prompt for the language model.
      * The prompt requests the language model to generate a response in the format of a ParkingResponse.

@@ -3,6 +3,7 @@
 **/build/
 xcuserdata
 !src/**/build/
+!src/**/release/
 local.properties
 .idea
 .DS_Store
@@ -16,3 +17,5 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 release-keystore.jks
+google_services.json
+key.jks.base64.txt
