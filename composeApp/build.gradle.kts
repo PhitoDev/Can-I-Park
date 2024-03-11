@@ -69,8 +69,8 @@ android {
         versionName = "1.01"
     }
     signingConfigs {
-        if (releaseStoreFile.isNotEmpty()) {
-            create("release") {
+        create("release") {
+            if (releaseStoreFile.isNotEmpty() && releaseKeyAlias.isNotEmpty() && releaseStorePassword.isNotEmpty() && releaseKeyPassword.isNotEmpty()) {
                 storeFile = file(releaseStoreFile)
                 storePassword = releaseStorePassword
                 keyAlias = releaseKeyAlias
