@@ -47,6 +47,7 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.koin)
+            implementation(libs.kermit)
         }
         androidMain.dependencies {
             implementation(libs.mlkit)
