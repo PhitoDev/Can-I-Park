@@ -25,8 +25,16 @@ jobs:
         - name: Grant execute permission for gradlew
           run: chmod +x gradlew
 
-        - name: Build bundle
+        - name: decrypt keystore
+          run: echo ${{ secrets.SIGNING_KEY_BASE64 }} | base64 --decode > release-keystore.jks
+
+        - name: Build with Gradle
           run: ./gradlew bundleRelease
+          env:
+            RELEASE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+            RELEASE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+            RELEASE_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+            RELEASE_STORE_FILE: ./release-keystore.jks
 
         - name: Sign AAB
           uses: r0adkll/sign-android-release@v1
@@ -47,8 +55,10 @@ jobs:
               releaseName: ${{ github.run_number }}
               whatsNew: "Automated deployment of build ${{ github.run_number }}"
 
-        - name: Delete build directory
-          run: rm -rf composeApp/build
+        - name: Clean up
+          run:
+            - rm -rf composeApp/build
+            - rm -rf release-keystore.jks
 
 env:
   API_KEY: ${{ secrets.API_KEY }}
