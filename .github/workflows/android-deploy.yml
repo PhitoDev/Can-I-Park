@@ -34,7 +34,7 @@ jobs:
             RELEASE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
             RELEASE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
             RELEASE_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
-            RELEASE_STORE_FILE: ./release-keystore.jks
+            RELEASE_STORE_FILE: ../release-keystore.jks
 
         - name: Sign AAB
           uses: r0adkll/sign-android-release@v1
