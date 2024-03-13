@@ -46,7 +46,7 @@ jobs:
               keyPassword: ${{ secrets.KEY_PASSWORD }}
 
         - name: Check directory
-          run: ls .
+          run: pwd && ls -la
 
         - name: Deploy to Play Console
           uses: r0adkll/upload-google-play@v1.1.3
