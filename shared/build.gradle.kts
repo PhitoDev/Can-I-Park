@@ -59,7 +59,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.dugue.canipark.shared"
+    namespace = "com.ralpddugue.canipark.shared"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

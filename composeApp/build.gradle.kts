@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.util.Properties
 
 plugins {
@@ -38,7 +37,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.dugue.canipark"
+    namespace = "com.ralphdugue.canipark"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -62,7 +61,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.dugue.canipark"
+        applicationId = "com.ralphdugue.canipark"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 3
