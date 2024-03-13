@@ -37,7 +37,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.ralphdugue.canipark"
+    namespace = "com.dugue.canipark"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -61,7 +61,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.ralphdugue.canipark"
+        applicationId = "com.dugue.canipark"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 3

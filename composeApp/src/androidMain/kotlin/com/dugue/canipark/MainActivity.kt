@@ -1,4 +1,4 @@
-package com.ralphdugue.canipark
+package com.dugue.canipark
 
 import android.Manifest.permission.CAMERA
 import android.content.ContentValues.TAG
@@ -21,9 +21,9 @@ import androidx.camera.view.PreviewView
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ralphdugue.canipark.ui.camera.CameraEvent
-import com.ralphdugue.canipark.ui.camera.CameraScreen
-import com.ralphdugue.canipark.ui.camera.CameraViewModel
+import com.dugue.canipark.ui.camera.CameraEvent
+import com.dugue.canipark.ui.camera.CameraScreen
+import com.dugue.canipark.ui.camera.CameraViewModel
 import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
