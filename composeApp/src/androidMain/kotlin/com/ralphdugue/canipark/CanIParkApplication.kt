@@ -1,7 +1,7 @@
-package com.dugue.canipark
+package com.ralphdugue.canipark
 
 import android.app.Application
-import com.dugue.canipark.di.modules.appModule
+import com.ralphdugue.canipark.di.modules.appModule
 import di.modules.androidModules
 import di.modules.sharedModules
 import org.koin.core.context.startKoin

@@ -1,4 +1,4 @@
-package com.dugue.canipark.ui.camera
+package com.ralphdugue.canipark.ui.camera
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

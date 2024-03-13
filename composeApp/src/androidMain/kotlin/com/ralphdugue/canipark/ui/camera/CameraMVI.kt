@@ -1,4 +1,4 @@
-package com.dugue.canipark.ui.camera
+package com.ralphdugue.canipark.ui.camera
 
 import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
