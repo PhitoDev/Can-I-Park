@@ -24,6 +24,7 @@ gradle-buildconfig-plugin = "5.3.5"
 lifecycleRuntimeCompose = "2.7.0"
 kotlinx-serialization-plugin = "1.9.22"
 kermit = "2.0.3"
+kotlinx-datetime = "0.6.0-RC.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -53,6 +54,7 @@ mlkit = { module = "com.google.mlkit:text-recognition", version.ref = "mlkit" }
 google-ai = { module ="com.google.ai.client.generativeai:generativeai", version.ref = "google-ai" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-serialization"]
