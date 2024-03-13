@@ -50,7 +50,7 @@ jobs:
           with:
               serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
               packageName: com.rdugue.canipark
-              releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
+              releaseFiles: $SIGNED_RELEASE_FILE
               track: internal
               releaseName: ${{ github.run_number }}
 
