@@ -45,15 +45,12 @@ jobs:
               keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
               keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-        - name: Check directory
-          run: pwd && ls -la
-
         - name: Deploy to Play Console
           uses: r0adkll/upload-google-play@v1.1.3
           with:
               serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
               packageName: com.rdugue.canipark
-              releaseFile: "./${{steps.sign_app.outputs.signedReleaseFile}}"
+              releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
               track: internal
               releaseName: ${{ github.run_number }}
 
