@@ -1,4 +1,4 @@
-package com.ralphdugue.canipark.ui.camera
+package com.dugue.canipark.ui.camera
 
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
-import com.ralphdugue.canipark.R
+import com.dugue.canipark.R
 
 @Composable
 @Preview

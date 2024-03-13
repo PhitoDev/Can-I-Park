@@ -52,7 +52,7 @@ jobs:
           uses: r0adkll/upload-google-play@v1.1.3
           with:
               serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-              packageName: com.ralphdugue.canipark
+              packageName: com.dugue.canipark
               releaseFiles: composeApp/build/outputs/bundle/release/composeApp-release.aab
               track: internal
               releaseName: ${{ github.run_number }}
