@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.koin)
             implementation(libs.kermit)
+            implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
             implementation(libs.mlkit)
