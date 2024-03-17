@@ -2,7 +2,6 @@ package com.dugue.canipark.ui.camera
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
 import domain.entities.ParkingResponse
 import domain.repositories.ParkingSignsRepository
@@ -49,7 +48,7 @@ class CameraViewModel(private val repository: ParkingSignsRepository) : ViewMode
                 is CameraEvent.PictureError -> _uiState.update {
                     it.copy(cameraState = CameraState.Error(event.message))
                 }
-                is CameraEvent.PictureTakenBitmap -> pictureTaken(event.bitmapRequest)
+                is CameraEvent.PictureTakenBitmap -> pictureTaken(event.parkingRequest)
             }
         }
             .flowOn(Dispatchers.IO)
@@ -59,24 +58,6 @@ class CameraViewModel(private val repository: ParkingSignsRepository) : ViewMode
     private suspend fun pictureTaken(parkingRequest: ParkingRequest) {
         _uiState.update { it.copy(cameraState = CameraState.Loading) }
         val result = repository.analyzeParkingSigns(parkingRequest)
-        if (result.isSuccess) {
-            _uiState.update {
-                it.copy(
-                    cameraState = if (result.getOrThrow().canIPark) {
-                        CameraState.ParkingAllowed(buildMessage(result.getOrThrow()))
-                    } else {
-                        CameraState.ParkingNotAllowed(buildMessage(result.getOrThrow()))
-                    }
-                )
-            }
-        } else {
-            _uiState.update { it.copy(cameraState = CameraState.Error(result.exceptionOrNull()!!.localizedMessage)) }
-        }
-    }
-
-    private suspend fun pictureTaken(bitmapRequest: BitmapRequest) {
-        _uiState.update { it.copy(cameraState = CameraState.Loading) }
-        val result = repository.analyzeParkingSigns(bitmapRequest)
         if (result.isSuccess) {
             _uiState.update {
                 it.copy(

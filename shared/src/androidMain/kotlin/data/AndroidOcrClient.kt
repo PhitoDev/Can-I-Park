@@ -2,6 +2,7 @@ package data
 
 import android.graphics.BitmapFactory
 import android.graphics.ImageFormat
+import co.touchlab.kermit.Logger
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognizer
 import kotlin.coroutines.resume
@@ -26,6 +27,7 @@ class AndroidOcrClient(private val recognizer: TextRecognizer) : OcrClient {
                 continuation.resume(text)
             }
             .addOnFailureListener { e ->
+                Logger.e { e.message.toString() }
                 continuation.resumeWithException(e)
             }
     }
@@ -44,6 +46,7 @@ class AndroidOcrClient(private val recognizer: TextRecognizer) : OcrClient {
                 it.resume(text)
             }
             .addOnFailureListener { e ->
+                Logger.e { e.message.toString() }
                 it.resumeWithException(e)
             }
     }

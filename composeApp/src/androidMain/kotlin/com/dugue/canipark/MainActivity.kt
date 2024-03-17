@@ -21,10 +21,10 @@ import androidx.camera.view.PreviewView
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import co.touchlab.kermit.Logger
 import com.dugue.canipark.ui.camera.CameraEvent
 import com.dugue.canipark.ui.camera.CameraScreen
 import com.dugue.canipark.ui.camera.CameraViewModel
-import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
             if (permissions[android.Manifest.permission.CAMERA] == false) {
                 Toast.makeText(baseContext, "Camera permission denied", Toast.LENGTH_SHORT).show()
             } else {
-                Log.d(TAG, "Camera permission granted") // More explicit logging
+                Logger.i("$TAG Camera permission granted") // More explicit logging
             }
         }
 
@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
                     this, cameraSelector, imageCapture, preview)
 
             } catch(exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Logger.e("$TAG Use case binding failed", exc)
             }
 
         }, ContextCompat.getMainExecutor(this))
@@ -106,7 +106,7 @@ class MainActivity : ComponentActivity() {
 
     private fun requestCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission already granted")
+            Logger.i("$TAG Camera permission already granted")
         } else {
             activityResultLauncher.launch(REQUIRED_PERMISSIONS)
         }
@@ -118,24 +118,11 @@ class MainActivity : ComponentActivity() {
             object : ImageCapture.OnImageCapturedCallback() {
                 override fun onCaptureSuccess(image: ImageProxy) {
                     val rotationDegrees = image.imageInfo.rotationDegrees
-                    if (image.format == ImageFormat.JPEG) {
-                        val bitmapRequest = BitmapRequest(
-                            encodedBitmap = encodeBitmapToString(image.toBitmap()),
-                            rotationDegrees = rotationDegrees
-                        )
-                        viewModel.onEvent(CameraEvent.PictureTakenBitmap(bitmapRequest))
-                    } else {
-                        val buffer = image.planes[0].buffer
-                        val byteArray = ByteArray(buffer.remaining())
-                        val parkingRequest = ParkingRequest(
-                            image = byteArray,
-                            width = image.width,
-                            height = image.height,
-                            rotationDegrees = rotationDegrees,
-                            format = image.format
-                        )
-                        viewModel.onEvent(CameraEvent.PictureTaken(parkingRequest))
-                    }
+                    val parkingRequest = ParkingRequest(
+                        encodedBitmap = encodeBitmapToString(image.toBitmap()),
+                        rotationDegrees = rotationDegrees
+                    )
+                    viewModel.onEvent(CameraEvent.PictureTakenBitmap(parkingRequest))
                     image.close()
                 }
 
