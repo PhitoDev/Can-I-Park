@@ -21,6 +21,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import co.touchlab.kermit.Logger
 import com.dugue.canipark.ui.camera.CameraEvent
 import com.dugue.canipark.ui.camera.CameraScreen
 import com.dugue.canipark.ui.camera.CameraViewModel
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
             if (permissions[android.Manifest.permission.CAMERA] == false) {
                 Toast.makeText(baseContext, "Camera permission denied", Toast.LENGTH_SHORT).show()
             } else {
-                Log.d(TAG, "Camera permission granted") // More explicit logging
+                Logger.i("$TAG Camera permission granted") // More explicit logging
             }
         }
 
@@ -98,7 +99,7 @@ class MainActivity : ComponentActivity() {
                     this, cameraSelector, imageCapture, preview)
 
             } catch(exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Logger.e("$TAG Use case binding failed", exc)
             }
 
         }, ContextCompat.getMainExecutor(this))
@@ -106,7 +107,7 @@ class MainActivity : ComponentActivity() {
 
     private fun requestCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission already granted")
+            Logger.i("$TAG Camera permission already granted")
         } else {
             activityResultLauncher.launch(REQUIRED_PERMISSIONS)
         }

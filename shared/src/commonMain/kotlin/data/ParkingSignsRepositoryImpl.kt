@@ -1,5 +1,6 @@
 package data
 
+import co.touchlab.kermit.Logger
 import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
 import domain.entities.ParkingResponse
@@ -36,6 +37,7 @@ class ParkingSignsRepositoryImpl(
             val parkingResponse = parkingResponseFromJson(llmResponse)
             Result.success(parkingResponse)
         } catch (e: Exception) {
+            Logger.e { e.message.toString() }
             Result.failure(e)
         }
 
@@ -47,6 +49,7 @@ class ParkingSignsRepositoryImpl(
             val parkingResponse = Json.decodeFromString<ParkingResponse>(llmResponse)
             Result.success(parkingResponse)
         } catch (e: Exception) {
+            Logger.e { e.message.toString() }
             Result.failure(e)
         }
 

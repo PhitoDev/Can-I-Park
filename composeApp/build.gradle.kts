@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.crashlytics)
 }
 
 kotlin {
@@ -22,6 +24,9 @@ kotlin {
             implementation(libs.bundles.androidx)
             implementation(libs.koin.android)
             implementation(libs.bundles.cameraX)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation("com.google.firebase:firebase-crashlytics")
+            implementation("com.google.firebase:firebase-analytics")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -29,6 +34,7 @@ kotlin {
             implementation(compose.material)
             implementation(compose.ui)
             implementation(libs.mlkit)
+            implementation(libs.kermit)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)

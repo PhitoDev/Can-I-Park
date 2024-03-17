@@ -12,6 +12,7 @@ androidx-material = "1.11.0"
 androidx-test-junit = "1.1.5"
 compose = "1.6.3"
 compose-plugin = "1.6.0"
+firebaseBom = "32.7.4"
 junit = "4.13.2"
 kotlin = "1.9.22"
 ktor = "2.3.8"
@@ -25,8 +26,11 @@ lifecycleRuntimeCompose = "2.7.0"
 kotlinx-serialization-plugin = "1.9.22"
 kermit = "2.0.3"
 kotlinx-datetime = "0.6.0-RC.2"
+google-services = "4.4.1"
+crashlytics = "2.9.9"
 
 [libraries]
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -70,5 +74,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets-gradle-plugin" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "gradle-buildconfig-plugin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinx-serialization-plugin" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "google-services" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 
 
