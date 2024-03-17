@@ -1,6 +1,5 @@
 package com.dugue.canipark.ui.camera
 
-import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
 
 data class CameraUIState(
@@ -17,7 +16,7 @@ sealed interface CameraState {
 
 sealed interface CameraEvent {
     data class PictureTaken(val parkingRequest: ParkingRequest) : CameraEvent
-    data class PictureTakenBitmap(val bitmapRequest: BitmapRequest) : CameraEvent
+    data class PictureTakenBitmap(val parkingRequest: ParkingRequest) : CameraEvent
     data class PictureError(val message: String) : CameraEvent
     data object ResultDismissed : CameraEvent
 }

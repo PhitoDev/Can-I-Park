@@ -12,7 +12,7 @@ import org.koin.dsl.module
 
 val androidModules = module {
     single { TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS) }
-    single { GenerativeModel(modelName = "gemini-pro", apiKey = BuildConfig.API_KEY) }
+    single { GenerativeModel(modelName = "gemini-pro-vision", apiKey = BuildConfig.API_KEY) }
     single<OcrClient> { AndroidOcrClient(get()) }
     single<LLMClient> { AndroidLLMClient(get()) }
 }

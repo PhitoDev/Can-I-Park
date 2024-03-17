@@ -25,7 +25,6 @@ import co.touchlab.kermit.Logger
 import com.dugue.canipark.ui.camera.CameraEvent
 import com.dugue.canipark.ui.camera.CameraScreen
 import com.dugue.canipark.ui.camera.CameraViewModel
-import domain.entities.BitmapRequest
 import domain.entities.ParkingRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
@@ -119,24 +118,11 @@ class MainActivity : ComponentActivity() {
             object : ImageCapture.OnImageCapturedCallback() {
                 override fun onCaptureSuccess(image: ImageProxy) {
                     val rotationDegrees = image.imageInfo.rotationDegrees
-                    if (image.format == ImageFormat.JPEG) {
-                        val bitmapRequest = BitmapRequest(
-                            encodedBitmap = encodeBitmapToString(image.toBitmap()),
-                            rotationDegrees = rotationDegrees
-                        )
-                        viewModel.onEvent(CameraEvent.PictureTakenBitmap(bitmapRequest))
-                    } else {
-                        val buffer = image.planes[0].buffer
-                        val byteArray = ByteArray(buffer.remaining())
-                        val parkingRequest = ParkingRequest(
-                            image = byteArray,
-                            width = image.width,
-                            height = image.height,
-                            rotationDegrees = rotationDegrees,
-                            format = image.format
-                        )
-                        viewModel.onEvent(CameraEvent.PictureTaken(parkingRequest))
-                    }
+                    val parkingRequest = ParkingRequest(
+                        encodedBitmap = encodeBitmapToString(image.toBitmap()),
+                        rotationDegrees = rotationDegrees
+                    )
+                    viewModel.onEvent(CameraEvent.PictureTakenBitmap(parkingRequest))
                     image.close()
                 }
 
