@@ -19,9 +19,8 @@ class AndroidLLMClient(private val generativeModel: GenerativeModel) : LLMClient
             val  byteArray = Base64.decode(encodedBitmap)
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
             builder.image(bitmap)
-        } else {
-            builder.text(prompt)
         }
+        builder.text(prompt)
         val response = generativeModel.generateContent(builder.build())
         return response.text ?: throw IllegalStateException("Response is null")
     }

@@ -82,15 +82,18 @@ class CameraViewModel(private val repository: ParkingSignsRepository) : ViewMode
         if (parkingResponse.canIPark) {
             builder.append("You can park here")
             if (parkingResponse.howLong != null) {
-                builder.append(" for ${parkingResponse.howLong} minutes.")
+                builder.append(" for ${parkingResponse.howLong}.")
             }
             if (parkingResponse.cost != null) {
-                builder.append("It will cost you ${parkingResponse.cost}.")
+                builder.append(" It will cost you ${parkingResponse.cost}.")
+            }
+            if (parkingResponse.restrictions != null) {
+                builder.append(" ${parkingResponse.restrictions}.")
             }
         } else {
-            builder.append("You cannot park here")
+            builder.append("You cannot park here.")
             if (parkingResponse.reasonIfNo != null) {
-                builder.append(" because ${parkingResponse.reasonIfNo}.")
+                builder.append(" ${parkingResponse.reasonIfNo}.")
             }
         }
         return builder.toString()

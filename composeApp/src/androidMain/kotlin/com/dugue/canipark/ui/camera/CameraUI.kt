@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -33,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.dugue.canipark.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 @Composable
 @Preview
@@ -45,7 +48,8 @@ fun CameraScreen(
     cameraState: CameraState,
     onCameraReady: (view: PreviewView) -> Unit = {},
     onPictureTaken: () -> Unit = {},
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
+    onAdViewReady: (adView: AdView) -> Unit = {}
 ) {
     when (cameraState) {
         is CameraState.Error -> MessageDialog(
@@ -55,7 +59,8 @@ fun CameraScreen(
         )
         CameraState.Idle -> CameraUI(
             onCameraReady = onCameraReady,
-            onPictureTaken = onPictureTaken
+            onPictureTaken = onPictureTaken,
+            onAdViewReady = onAdViewReady
         )
         CameraState.Loading -> {
             Box(
@@ -85,7 +90,8 @@ fun CameraScreen(
 @Composable
 private fun CameraUI(
     onCameraReady: (view: PreviewView) -> Unit = {},
-    onPictureTaken: () -> Unit = {}
+    onPictureTaken: () -> Unit = {},
+    onAdViewReady: (adView: AdView) -> Unit = {}
 ) {
     Box {
         AndroidView(
@@ -97,11 +103,25 @@ private fun CameraUI(
                 onCameraReady(view)
             }
         )
+        AndroidView(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            factory = { context ->
+                AdView(context).apply {
+                    adUnitId = "ca-app-pub-2138105660848240/1475290586"
+                    setAdSize(com.google.android.gms.ads.AdSize.BANNER)
+                    loadAd(AdRequest.Builder().build())
+                }
+            },
+            update = { view ->
+                onAdViewReady(view)
+            }
+        )
         BottomAppBar(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .alpha(0.5f)
+                .alpha(0.4f),
+            backgroundColor = MaterialTheme.colors.surface
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -112,14 +132,14 @@ private fun CameraUI(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .background(
-                            color = MaterialTheme.colors.onPrimary,
+                            color = MaterialTheme.colors.primary,
                             shape = RoundedCornerShape(25)
                         )
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.camera),
                         contentDescription = "Take picture",
-                        tint = MaterialTheme.colors.primary
+                        tint = MaterialTheme.colors.onPrimary
                     )
                 }
             }

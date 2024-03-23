@@ -25,6 +25,11 @@ import co.touchlab.kermit.Logger
 import com.dugue.canipark.ui.camera.CameraEvent
 import com.dugue.canipark.ui.camera.CameraScreen
 import com.dugue.canipark.ui.camera.CameraViewModel
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import domain.entities.ParkingRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
@@ -33,9 +38,7 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 
 class MainActivity : ComponentActivity() {
 
-    private val REQUIRED_PERMISSIONS = arrayOf(
-        android.Manifest.permission.CAMERA
-    )
+    private val REQUIRED_PERMISSIONS = arrayOf(CAMERA)
 
     private val viewModel: CameraViewModel by viewModel()
 
@@ -46,12 +49,13 @@ class MainActivity : ComponentActivity() {
             ActivityResultContracts.RequestMultiplePermissions())
         { permissions ->
             // Handle Permission granted/rejected
-            if (permissions[android.Manifest.permission.CAMERA] == false) {
+            if (permissions[CAMERA] == false) {
                 Toast.makeText(baseContext, "Camera permission denied", Toast.LENGTH_SHORT).show()
             } else {
                 Logger.i("$TAG Camera permission granted") // More explicit logging
             }
         }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +66,13 @@ class MainActivity : ComponentActivity() {
                 cameraState = state.cameraState,
                 onCameraReady = { view -> startCamera(view) },
                 onPictureTaken = { takePhoto() },
-                onDismiss = { viewModel.onEvent(CameraEvent.ResultDismissed) }
+                onDismiss = { viewModel.onEvent(CameraEvent.ResultDismissed) },
+                onAdViewReady = { view -> setupBannerAd(view) }
             )
+        }
+        MobileAds.initialize(this) {
+            Logger.i("$TAG AdMob initialized")
+
         }
     }
 
@@ -138,6 +147,18 @@ class MainActivity : ComponentActivity() {
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         return Base64.encode(stream.toByteArray())
+    }
+
+    private fun setupBannerAd(view: AdView) {
+        view.adListener = object : AdListener() {
+            override fun onAdLoaded() {
+                Logger.i("$TAG Ad loaded")
+            }
+
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                Logger.e("$TAG Ad failed to load: ${error.message}")
+            }
+        }
     }
 }
 

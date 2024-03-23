@@ -29,13 +29,17 @@ class ParkingSignsRepositoryImpl(
         }
 
     private fun parkingResponseFromJson(llmResponse: String): ParkingResponse = try {
-        Json.decodeFromString(llmResponse)
+        val json = llmResponse
+            .replace("```json\n", "")
+            .replace("```", "")
+            .replace("```json", "")
+        Json.decodeFromString(json)
     } catch (e: Exception) {
         ParkingResponse(
             canIPark = false,
             howLong = null,
             cost = null,
-            reasonIfNo = e.message
+            reasonIfNo = llmResponse
         )
     }
 
@@ -47,23 +51,58 @@ class ParkingSignsRepositoryImpl(
      */
     private fun formatPrompt(ocrResponse: String): String {
         return """
-            Tell me if I can park here right now. It is ${getCurrentSystemTime()},
-            and the accompanying text from the parking signs say: $ocrResponse. 
-            If I can park, how long can I park? If there is a cost, how much does it cost?
-            If I can't park, why not?
-            Please respond in the following JSON format based on these examples:
+            It is currently ${getCurrentSystemTime()}, and the accompanying text from the provided 
+            image is: `$ocrResponse`. Tell me if I can park here right now based on 
+            that information and the image provided, if it is a valid image of parking signs.
+            If I can park, how long can I park? 
+            If there is a cost, how much does it cost?
+            Are there any restrictions?
+            If I can't park, why not? 
+            Please only respond in JSON format based on the following schema and examples:
+            {
+                "title": "Parking Response",
+                "type": "object",
+                "properties": {
+                    "canIPark": {
+                        "type": "boolean",
+                        "description": "Whether or not the user can park at the location"
+                    },
+                    "howLong": {
+                        "type": "string",
+                        "description": "How long the user can park at the location"
+                    },
+                    "cost": {
+                        "type": "string",
+                        "description": "The cost of parking at the location"
+                    },
+                    "reasonIfNo": {
+                        "type": "string",
+                        "description": "The reason the user cannot park at the location"
+                    },
+                    "restrictions": {
+                        "type": "string",
+                        "description": "The restrictions on parking at the location"
+                    }
+                },
+                "required": ["canIPark"]
+            },
             {
                 "canIPark": true,
                 "howLong": "2 hours",
                 "cost": "$2.00 per hour",
-                "reasonIfNo": null
-            }
+                "reasonIfNo": null,
+                "restrictions": Only cars with permits
+            },
             {
                 "canIPark": false,
                 "howLong": null,
                 "cost": null,
-                "reasonIfNo": "No parking on Sundays"
-            }
+                "reasonIfNo": "No parking on Sundays",
+                "restrictions": null
+            }.
+            If the image provided is not a valid image of parking signs,
+            respond in the format with the "reasonIfNo" being "This is not a valid image for analysis".
+            Do not include the schema in your response.
         """.trimIndent()
     }
 }

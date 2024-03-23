@@ -57,7 +57,7 @@ jobs:
               serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
               packageName: com.dugue.canipark
               releaseFiles: composeApp/build/outputs/bundle/release/composeApp-release.aab
-              track: internal
+              track: open
               status: draft
               releaseName: ${{ github.run_number }}
 

@@ -33,12 +33,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew buildDebug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3.1.3
-        with:
-          name: canipark-debug
-          path: composeApp/build/outputs/apk/debug/app-debug.apk
-
       - name: Delete build directory
         run: rm -rf composeApp/build
 
