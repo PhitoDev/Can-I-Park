@@ -24,6 +24,7 @@ kotlin {
             implementation(libs.bundles.androidx)
             implementation(libs.koin.android)
             implementation(libs.bundles.cameraX)
+            implementation(libs.play.services.admob)
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation("com.google.firebase:firebase-crashlytics")
             implementation("com.google.firebase:firebase-analytics")
@@ -71,7 +72,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 4
-        versionName = "1.2"
+        versionName = "1.3"
     }
     signingConfigs {
         create("release") {

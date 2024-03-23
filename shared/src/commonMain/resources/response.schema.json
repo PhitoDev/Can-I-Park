@@ -1,0 +1,27 @@
+{
+  "title": "Parking Response",
+  "type": "object",
+    "properties": {
+        "canIPark": {
+            "type": "boolean",
+            "description": "Whether or not the user can park at the location"
+        },
+        "howLong": {
+            "type": "string",
+            "description": "How long the user can park at the location"
+        },
+        "cost": {
+            "type": "string",
+            "description": "The cost of parking at the location"
+        },
+        "reasonIfNo": {
+            "type": "string",
+            "description": "The reason the user cannot park at the location"
+        },
+        "restrictions": {
+            "type": "string",
+            "description": "The restrictions on parking at the location"
+        }
+    },
+    "required": ["canIPark"]
+}
