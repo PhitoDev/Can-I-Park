@@ -39,7 +39,7 @@ class ParkingSignsRepositoryImpl(
             canIPark = false,
             howLong = null,
             cost = null,
-            reasonIfNo = llmResponse
+            reasonIfNo = e.message,
         )
     }
 
