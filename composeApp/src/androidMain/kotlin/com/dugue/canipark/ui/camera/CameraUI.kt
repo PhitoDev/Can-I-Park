@@ -62,18 +62,7 @@ fun CameraScreen(
             onPictureTaken = onPictureTaken,
             onAdViewReady = onAdViewReady
         )
-        CameraState.Loading -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.height(100.dp).width(100.dp),
-                    color = MaterialTheme.colors.primary,
-                    strokeWidth = 15.dp
-                )
-            }
-        }
+        CameraState.Loading -> LoadingDialog()
         is CameraState.ParkingNotAllowed -> MessageDialog(
             message = cameraState.message,
             isPositive = false,
@@ -183,6 +172,61 @@ private fun MessageDialog(
                     Text("OK")
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun LoadingDialog() {
+    Dialog(onDismissRequest = {}) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            AndroidView(
+                modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter).padding(8.dp),
+                factory = { context ->
+                    AdView(context).apply {
+                        adUnitId = "ca-app-pub-2138105660848240/7041466126"
+                        setAdSize(com.google.android.gms.ads.AdSize.BANNER)
+                        loadAd(AdRequest.Builder().build())
+                    }
+                },
+                update = { view ->
+                    // onAdViewReady(view)
+                }
+            )
+            Card(
+                modifier = Modifier.padding(16.dp).align(Alignment.Center),
+                shape = RoundedCornerShape(8.dp),
+                backgroundColor = Color.White
+            ) { // Card to give a background color
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Analyzing...", style = MaterialTheme.typography.h6)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    CircularProgressIndicator(
+                        modifier = Modifier.height(150.dp).width(150.dp),
+                        color = MaterialTheme.colors.primary,
+                        strokeWidth = 15.dp
+                    )
+                }
+            }
+            AndroidView(
+                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(8.dp),
+                factory = { context ->
+                    AdView(context).apply {
+                        adUnitId = "ca-app-pub-2138105660848240/1597567752"
+                        setAdSize(com.google.android.gms.ads.AdSize.BANNER)
+                        loadAd(AdRequest.Builder().build())
+                    }
+                },
+                update = { view ->
+                    // onAdViewReady(view)
+                }
+            )
         }
     }
 }

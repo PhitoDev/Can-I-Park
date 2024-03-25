@@ -54,10 +54,10 @@ class ParkingSignsRepositoryImpl(
             It is currently ${getCurrentSystemTime()}, and the accompanying text from the provided 
             image is: `$ocrResponse`. Tell me if I can park here right now based on 
             that information and the image provided, if it is a valid image of parking signs.
-            If I can park, how long can I park? 
-            If there is a cost, how much does it cost?
-            Are there any restrictions?
-            If I can't park, why not? 
+            If I can park, how long can I park? If there is no time limit, this field should be null.
+            If there is a cost, how much does it cost? If no cost, this field should be null.
+            Are there any restrictions? If there are no restrictions, this field should be null.
+            If I can't park, why not? If I can park, this field should be null.
             Please only respond in JSON format based on the following schema and examples:
             {
                 "title": "Parking Response",
