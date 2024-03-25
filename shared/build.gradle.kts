@@ -51,7 +51,6 @@ kotlin {
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
-            implementation(libs.mlkit)
             implementation(libs.google.ai)
             implementation(libs.bundles.cameraX)
         }

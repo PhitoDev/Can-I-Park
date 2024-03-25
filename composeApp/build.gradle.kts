@@ -34,7 +34,6 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
-            implementation(libs.mlkit)
             implementation(libs.kermit)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -109,5 +108,6 @@ android {
 }
 dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.material3.android)
 }
 

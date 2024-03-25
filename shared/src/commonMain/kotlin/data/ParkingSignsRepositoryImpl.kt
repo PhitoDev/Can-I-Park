@@ -8,16 +8,13 @@ import domain.repositories.ParkingSignsRepository
 import kotlinx.serialization.json.Json
 
 class ParkingSignsRepositoryImpl(
-    private val llmClient: LLMClient,
-    private val ocrClient: OcrClient
+    private val llmClient: LLMClient
 ): ParkingSignsRepository {
 
     override suspend fun analyzeParkingSigns(request: ParkingRequest): Result<ParkingResponse> =
         try {
-            val ocrResponse = ocrClient.analyzeParkingSigns(request.encodedBitmap, request.rotationDegrees)
-            val formattedPrompt = formatPrompt(ocrResponse)
             val llmResponse = llmClient.generateResponse(
-                prompt = formattedPrompt,
+                prompt = formatPrompt(),
                 encodedBitmap = request.encodedBitmap,
                 rotationDegrees = request.rotationDegrees
             )
@@ -49,10 +46,9 @@ class ParkingSignsRepositoryImpl(
      * @param ocrResponse The text from the ocr analyzer.
      * @return A prompt for the language model.
      */
-    private fun formatPrompt(ocrResponse: String): String {
+    private fun formatPrompt(): String {
         return """
-            It is currently ${getCurrentSystemTime()}, and the accompanying text from the provided 
-            image is: `$ocrResponse`. Tell me if I can park here right now based on 
+            It is currently ${getCurrentSystemTime()}. Tell me if I can park here right now based on 
             that information and the image provided, if it is a valid image of parking signs.
             If I can park, how long can I park? If there is no time limit, this field should be null.
             If there is a cost, how much does it cost? If no cost, this field should be null.

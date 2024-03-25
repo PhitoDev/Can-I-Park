@@ -18,6 +18,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -62,13 +63,15 @@ class MainActivity : ComponentActivity() {
         requestCameraPermission()
         setContent {
             val state by viewModel.uiState.collectAsStateWithLifecycle()
-            CameraScreen(
-                cameraState = state.cameraState,
-                onCameraReady = { view -> startCamera(view) },
-                onPictureTaken = { takePhoto() },
-                onDismiss = { viewModel.onEvent(CameraEvent.ResultDismissed) },
-                onAdViewReady = { view -> setupBannerAd(view) }
-            )
+            MaterialTheme {
+                CameraScreen(
+                    cameraState = state.cameraState,
+                    onCameraReady = { view -> startCamera(view) },
+                    onPictureTaken = { takePhoto() },
+                    onDismiss = { viewModel.onEvent(CameraEvent.ResultDismissed) },
+                    onAdViewReady = { view -> setupBannerAd(view) }
+                )
+            }
         }
         MobileAds.initialize(this) {
             Logger.i("$TAG AdMob initialized")
