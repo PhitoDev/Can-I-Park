@@ -34,7 +34,6 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
-            implementation(libs.mlkit)
             implementation(libs.kermit)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -71,8 +70,8 @@ android {
         applicationId = "com.dugue.canipark"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 6
-        versionName = "1.31"
+        versionCode = 7
+        versionName = "1.4"
     }
     signingConfigs {
         create("release") {
@@ -109,5 +108,6 @@ android {
 }
 dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.material3.android)
 }
 

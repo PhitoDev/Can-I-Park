@@ -13,14 +13,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -105,30 +107,25 @@ private fun CameraUI(
                 onAdViewReady(view)
             }
         )
-        BottomAppBar(
+        NavigationBar (
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .alpha(0.4f),
-            backgroundColor = MaterialTheme.colors.surface
+                .alpha(0.3f),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ) { // Column to center the button
-                IconButton(
+            ) {
+                FloatingActionButton(
                     onClick = onPictureTaken,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .background(
-                            color = MaterialTheme.colors.primary,
-                            shape = RoundedCornerShape(25)
-                        )
+                    modifier = Modifier.size(64.dp).alpha(0.8f),
+                    containerColor = MaterialTheme.colorScheme.primary,
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.camera),
-                        contentDescription = "Take picture",
-                        tint = MaterialTheme.colors.onPrimary
+                        contentDescription = "Take a picture",
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -158,12 +155,12 @@ private fun MessageDialog(
                     contentDescription = "Result",
                     modifier = Modifier.size(96.dp),
                     colorFilter = ColorFilter.tint(
-                        if (isPositive) MaterialTheme.colors.primary else MaterialTheme.colors.error
+                        if (isPositive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
                     )
                 )
                 Text(
                     text = message,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(
@@ -199,18 +196,17 @@ private fun LoadingDialog() {
             Card(
                 modifier = Modifier.padding(16.dp).align(Alignment.Center),
                 shape = RoundedCornerShape(8.dp),
-                backgroundColor = Color.White
             ) { // Card to give a background color
                 Column(
                     modifier = Modifier.padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text("Analyzing...", style = MaterialTheme.typography.h6)
+                    Text("Analyzing...", style = MaterialTheme.typography.titleLarge)
                     Spacer(modifier = Modifier.height(8.dp))
                     CircularProgressIndicator(
-                        modifier = Modifier.height(150.dp).width(150.dp),
-                        color = MaterialTheme.colors.primary,
-                        strokeWidth = 15.dp
+                        modifier = Modifier.height(50.dp).width(50.dp),
+                        color = MaterialTheme.colorScheme.primary,
+                        strokeWidth = 4.dp
                     )
                 }
             }

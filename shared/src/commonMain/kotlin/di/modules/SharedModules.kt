@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val sharedModules = module {
     single { HttpClient() }
-    single<ParkingSignsRepository> { ParkingSignsRepositoryImpl(get(), get())}
+    single<ParkingSignsRepository> { ParkingSignsRepositoryImpl(get())}
 }
