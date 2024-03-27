@@ -30,6 +30,7 @@ crashlytics = "2.9.9"
 play-services-admob = "23.0.0"
 material3 = "1.2.1"
 material3Android = "1.2.1"
+datastore = "1.0.0"
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -63,6 +64,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 play-services-admob = { module = "com.google.android.gms:play-services-ads", version.ref = "play-services-admob" }
 material3 = { module = "com.google.android.material:material3", version.ref = "material3" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-serialization"]

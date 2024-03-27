@@ -59,11 +59,9 @@ fun CameraScreen(
             isPositive = false,
             onDismiss = onDismiss
         )
-        CameraState.Idle -> CameraUI(
-            onCameraReady = onCameraReady,
-            onPictureTaken = onPictureTaken,
-            onAdViewReady = onAdViewReady
-        )
+        CameraState.Idle -> {
+            Box {  }
+        }
         CameraState.Loading -> LoadingDialog()
         is CameraState.ParkingNotAllowed -> MessageDialog(
             message = cameraState.message,
@@ -74,6 +72,18 @@ fun CameraScreen(
             message = cameraState.message,
             isPositive = true,
             onDismiss = onDismiss
+        )
+
+        is CameraState.ShowingDisclaimer -> MessageDialog(
+            message = cameraState.message,
+            isPositive = false,
+            onDismiss = onDismiss
+        )
+
+        CameraState.ShowingCamera -> CameraUI(
+            onCameraReady = onCameraReady,
+            onPictureTaken = onPictureTaken,
+            onAdViewReady = onAdViewReady
         )
     }
 }

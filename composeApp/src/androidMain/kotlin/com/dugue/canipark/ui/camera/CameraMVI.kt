@@ -7,16 +7,19 @@ data class CameraUIState(
 )
 
 sealed interface CameraState {
-    object Idle : CameraState
-    object Loading : CameraState
+    data object Idle : CameraState
+    data object Loading : CameraState
+    data object ShowingCamera : CameraState
+    data class ShowingDisclaimer(val message: String) : CameraState
     data class ParkingAllowed(val message: String) : CameraState
     data class ParkingNotAllowed(val message: String): CameraState
     data class Error(val message: String) : CameraState
 }
 
 sealed interface CameraEvent {
+    data object DisclaimerChecked : CameraEvent
     data class PictureTaken(val parkingRequest: ParkingRequest) : CameraEvent
     data class PictureTakenBitmap(val parkingRequest: ParkingRequest) : CameraEvent
     data class PictureError(val message: String) : CameraEvent
-    data object ResultDismissed : CameraEvent
+    data object MessageDismissed : CameraEvent
 }

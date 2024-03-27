@@ -4,7 +4,6 @@ import android.Manifest.permission.CAMERA
 import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.ImageFormat
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -27,7 +26,6 @@ import com.dugue.canipark.ui.camera.CameraEvent
 import com.dugue.canipark.ui.camera.CameraScreen
 import com.dugue.canipark.ui.camera.CameraViewModel
 import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
@@ -63,12 +61,15 @@ class MainActivity : ComponentActivity() {
         requestCameraPermission()
         setContent {
             val state by viewModel.uiState.collectAsStateWithLifecycle()
+            viewModel.onEvent(CameraEvent.DisclaimerChecked)
             MaterialTheme {
                 CameraScreen(
                     cameraState = state.cameraState,
-                    onCameraReady = { view -> startCamera(view) },
+                    onCameraReady = { view ->
+                        startCamera(view)
+                                    },
                     onPictureTaken = { takePhoto() },
-                    onDismiss = { viewModel.onEvent(CameraEvent.ResultDismissed) },
+                    onDismiss = { viewModel.onEvent(CameraEvent.MessageDismissed) },
                     onAdViewReady = { view -> setupBannerAd(view) }
                 )
             }

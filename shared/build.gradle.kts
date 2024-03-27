@@ -53,6 +53,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.google.ai)
             implementation(libs.bundles.cameraX)
+            implementation(libs.datastore)
         }
     }
 }
