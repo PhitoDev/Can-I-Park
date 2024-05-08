@@ -20,8 +20,13 @@ kotlin {
     sourceSets {
         
         androidMain.dependencies {
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.androidx.material3.android)
+            implementation(libs.androidx.ui.unit)
+            implementation(libs.androidx.datastore.core.android)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.bundles.androidx)
+            implementation(libs.bundles.datastore)
             implementation(libs.koin.android)
             implementation(libs.bundles.cameraX)
             implementation(libs.play.services.admob)
@@ -105,9 +110,5 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
-}
-dependencies {
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.material3.android)
 }
 

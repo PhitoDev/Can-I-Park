@@ -68,4 +68,6 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
+    task("testClasses")
 }

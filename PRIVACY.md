@@ -8,14 +8,15 @@
 **Data Use**
 
 * We transmit the captured images to the following third-party machine learning services for analysis:
-    * Google ML Kit
     * Gemini Pro through Google AI Studio
 * These services process the images to extract parking sign information.
 * We use the extracted information to provide you with relevant parking regulations and restrictions.
 
 **Data Sharing**
 
-* We only share the captured parking sign images with the specified third-party machine learning services for analysis purposes.
+* We only share the following data with the specified third-party machine learning services for analysis purposes:
+    * Images of parking signs captured through the app
+    * Date and time of image capture acquired from your device
 * We do not sell or share your data with any other parties for commercial purposes.
 
 **Data Security**
