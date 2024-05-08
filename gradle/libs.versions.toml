@@ -1,36 +1,39 @@
 [versions]
-agp = "8.3.1"
+agp = "8.4.0"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
-androidx-activityCompose = "1.8.2"
+androidx-activityCompose = "1.9.0"
 androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
-androidx-core-ktx = "1.12.0"
+androidx-core-ktx = "1.13.1"
 androidx-espresso-core = "3.5.1"
-androidx-material = "1.11.0"
+androidx-material = "1.12.0"
 androidx-test-junit = "1.1.5"
-compose = "1.6.3"
+compose = "1.6.7"
 compose-plugin = "1.6.0"
-firebaseBom = "32.7.4"
+firebaseBom = "33.0.0"
 junit = "4.13.2"
 kotlin = "1.9.22"
 ktor = "2.3.8"
 koin = "3.2.0"
-cameraX = "1.3.2"
+cameraX = "1.3.3"
 secrets-gradle-plugin = "2.0.1"
-google-ai = "0.2.2"
+google-ai = "0.5.0"
 gradle-buildconfig-plugin = "5.3.5"
 lifecycleRuntimeCompose = "2.7.0"
 kotlinx-serialization-plugin = "1.9.22"
 kermit = "2.0.3"
 kotlinx-datetime = "0.6.0-RC.2"
 google-services = "4.4.1"
-crashlytics = "2.9.9"
+crashlytics = "3.0.0"
 play-services-admob = "23.0.0"
 material3 = "1.2.1"
 material3Android = "1.2.1"
-datastore = "1.0.0"
+datastore = "1.1.1"
+uiUnit = "1.6.7"
+datastoreCoreAndroid = "1.1.1"
+datastoreAndroid = "1.1.1"
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -65,12 +68,16 @@ play-services-admob = { module = "com.google.android.gms:play-services-ads", ver
 material3 = { module = "com.google.android.material:material3", version.ref = "material3" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-ui-unit = { group = "androidx.compose.ui", name = "ui-unit", version.ref = "uiUnit" }
+androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
+androidx-datastore-android = { group = "androidx.datastore", name = "datastore-android", version.ref = "datastoreAndroid" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-serialization"]
 koin = ["koin-core", "koin-test"]
 cameraX = ["cameraX-core", "cameraX-camera2", "cameraX-lifecycle", "cameraX-view", "cameraX-extensions"]
 androidx = ["androidx-core-ktx","androidx-appcompat", "androidx-material", "androidx-constraintlayout", "androidx-activity-compose"]
+datastore = ["datastore", "androidx-datastore-core-android", "androidx-datastore-android"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
