@@ -2,6 +2,7 @@ package com.dugue.canipark.ui.camera
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dugue.canipark.R
 import domain.entities.ParkingRequest
 import domain.entities.ParkingResponse
 import domain.repositories.DisclaimerRepository
@@ -87,7 +88,9 @@ class CameraViewModel(
                 )
             }
         } else {
-            _uiState.update { it.copy(cameraState = CameraState.Error(result.exceptionOrNull()!!.localizedMessage)) }
+            _uiState.update {
+                it.copy(cameraState = CameraState.Error(result.exceptionOrNull()!!.localizedMessage))
+            }
         }
     }
 

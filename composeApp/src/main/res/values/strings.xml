@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="image_analysis_error">An unexpected error occurred. Please make sure the image is clear and contains a parking sign.</string>
+</resources>
