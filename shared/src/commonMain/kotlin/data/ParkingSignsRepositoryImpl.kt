@@ -30,7 +30,7 @@ class ParkingSignsRepositoryImpl(
             .replace("```json\n", "")
             .replace("```", "")
             .replace("```json", "")
-        Json.decodeFromString(json)
+        Json.decodeFromString<ParkingResponse>(json)
     } catch (e: Exception) {
         ParkingResponse(
             canIPark = false,
