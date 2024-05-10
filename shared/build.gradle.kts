@@ -45,7 +45,8 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.bundles.ktor.client)
+            implementation(libs.kotlinx.serialization)
+            ///implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.koin)
             implementation(libs.kermit)
             implementation(libs.kotlinx.datetime)
