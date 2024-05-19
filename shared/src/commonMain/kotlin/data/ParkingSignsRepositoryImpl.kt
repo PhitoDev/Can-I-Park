@@ -25,20 +25,18 @@ class ParkingSignsRepositoryImpl(
             Result.failure(e)
         }
 
-    private fun parkingResponseFromJson(llmResponse: String): ParkingResponse = try {
-        val json = llmResponse
-            .replace("```json\n", "")
-            .replace("```", "")
-            .replace("```json", "")
-        Json.decodeFromString<ParkingResponse>(json)
-    } catch (e: Exception) {
-        ParkingResponse(
-            canIPark = false,
-            howLong = null,
-            cost = null,
-            reasonIfNo = e.message,
-        )
-    }
+    private fun parkingResponseFromJson(llmResponse: String): ParkingResponse =
+        try {
+            val json = llmResponse
+                .replace("```json\n", "")
+                .replace("```", "")
+                .replace("```json", "")
+            Json.decodeFromString<ParkingResponse>(json)
+        } catch (e: Exception) {
+            val message = "Failed to parse llm response: $llmResponse \n" + e.message.toString()
+            Logger.e { message }
+            throw Exception(message)
+        }
 
     /**
      * This function takes  The text from an ocr analyzer and formats it into a prompt for the language model.
