@@ -19,7 +19,7 @@ ktor = "2.3.8"
 koin = "3.2.0"
 cameraX = "1.3.3"
 secrets-gradle-plugin = "2.0.1"
-google-ai = "0.5.0"
+google-ai = "0.6.0"
 gradle-buildconfig-plugin = "5.3.5"
 lifecycleRuntimeCompose = "2.7.0"
 kotlinx-serialization-plugin = "1.9.22"
@@ -27,14 +27,16 @@ kotlinx-serialization = "1.6.3"
 kermit = "2.0.3"
 kotlinx-datetime = "0.6.0-RC.2"
 google-services = "4.4.1"
-crashlytics = "3.0.0"
-play-services-admob = "23.0.0"
+crashlytics = "3.0.1"
+play-services-admob = "23.1.0"
 material3 = "1.2.1"
 material3Android = "1.2.1"
 datastore = "1.1.1"
 uiUnit = "1.6.7"
 datastoreCoreAndroid = "1.1.1"
 datastoreAndroid = "1.1.1"
+firebaseCrashlyticsKtx = "19.0.0"
+firebaseCommonKtx = "21.0.0"
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -73,6 +75,8 @@ datastore = { module = "androidx.datastore:datastore-preferences", version.ref =
 androidx-ui-unit = { group = "androidx.compose.ui", name = "ui-unit", version.ref = "uiUnit" }
 androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 androidx-datastore-android = { group = "androidx.datastore", name = "datastore-android", version.ref = "datastoreAndroid" }
+firebase-crashlytics-ktx = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-serialization"]
