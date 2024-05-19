@@ -2,9 +2,8 @@ package com.dugue.canipark.ui.camera
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dugue.canipark.R
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import domain.entities.ParkingRequest
 import domain.entities.ParkingResponse
 import domain.repositories.DisclaimerRepository
@@ -91,7 +90,7 @@ class CameraViewModel(
             }
         } else {
             _uiState.update {
-                Firebase.crashlytics.log("Failed to analyze parking signs: ${result.exceptionOrNull()}")
+                result.exceptionOrNull()?.let { e -> Firebase.crashlytics.recordException(e) }
                 it.copy(cameraState = CameraState.Error(result.exceptionOrNull()!!.localizedMessage))
             }
         }

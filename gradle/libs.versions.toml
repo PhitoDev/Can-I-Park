@@ -35,7 +35,6 @@ datastore = "1.1.1"
 uiUnit = "1.6.7"
 datastoreCoreAndroid = "1.1.1"
 datastoreAndroid = "1.1.1"
-firebaseCrashlyticsKtx = "19.0.0"
 firebaseCommonKtx = "21.0.0"
 
 [libraries]
@@ -75,8 +74,6 @@ datastore = { module = "androidx.datastore:datastore-preferences", version.ref =
 androidx-ui-unit = { group = "androidx.compose.ui", name = "ui-unit", version.ref = "uiUnit" }
 androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 androidx-datastore-android = { group = "androidx.datastore", name = "datastore-android", version.ref = "datastoreAndroid" }
-firebase-crashlytics-ktx = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
-firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 
 [bundles]
 ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-serialization"]
