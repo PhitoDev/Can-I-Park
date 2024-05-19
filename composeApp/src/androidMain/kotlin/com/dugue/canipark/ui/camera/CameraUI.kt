@@ -143,7 +143,7 @@ private fun CameraUI(
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.camera),
-                        contentDescription = "Take a picture",
+                        contentDescription = "Take picture",
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
