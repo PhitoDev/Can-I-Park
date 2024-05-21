@@ -97,7 +97,6 @@ private fun CameraUI(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(60.dp)
-                .padding(4.dp)
                 .weight(1f),
             factory = { context ->
                 AdView(context).apply {
