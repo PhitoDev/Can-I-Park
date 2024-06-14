@@ -1,9 +1,11 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.kotlin.compose.compiler)
     alias(libs.plugins.googleServices)
     alias(libs.plugins.crashlytics)
 }
@@ -11,12 +13,14 @@ plugins {
 kotlin {
     androidTarget {
         compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        }
+
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    
+
     sourceSets {
         
         androidMain.dependencies {
@@ -35,13 +39,7 @@ kotlin {
             implementation("com.google.firebase:firebase-analytics")
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
             implementation(libs.kermit)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
             implementation(projects.shared)
         }
     }
@@ -75,8 +73,8 @@ android {
         applicationId = "com.dugue.canipark"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 13
-        versionName = "1.5.4"
+        versionCode = 14
+        versionName = "1.5.5"
     }
     signingConfigs {
         create("release") {

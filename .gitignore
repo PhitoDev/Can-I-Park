@@ -23,3 +23,4 @@ key.jks.base64.txt
 composeApp/src/google-services.json
 services-json.base64.txt
 composeApp/google-services.json
+/.kotlin/
