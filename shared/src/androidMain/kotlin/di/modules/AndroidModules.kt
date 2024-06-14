@@ -12,7 +12,7 @@ import data.UserPreferences
 import org.koin.dsl.module
 
 val androidModules = module {
-    single { GenerativeModel(modelName = "gemini-pro-vision", apiKey = BuildConfig.API_KEY) }
+    single { GenerativeModel(modelName = "gemini-1.5-flash", apiKey = BuildConfig.API_KEY) }
     single<UserPreferences> { AndroidUserPreference(get()) }
     single<LLMClient> { AndroidLLMClient(get()) }
 }
