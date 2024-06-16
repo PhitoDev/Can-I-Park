@@ -74,7 +74,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 14
-        versionName = "1.5.5"
+        versionName = "1.5.6"
     }
     signingConfigs {
         create("release") {
