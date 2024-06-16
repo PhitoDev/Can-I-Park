@@ -73,7 +73,7 @@ android {
         applicationId = "com.dugue.canipark"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 14
+        versionCode = 15
         versionName = "1.5.7"
     }
     signingConfigs {
