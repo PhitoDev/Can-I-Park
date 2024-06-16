@@ -10,6 +10,6 @@ parking easier. It is available on the Google Play Store.
 ### Screenshots
 | Splash Screen | Main Screen | Result Screen |
 | --- | --- | --- |
-| <img src="/images/screenshots/splash_screen.png" width="200"> | <img src="/images/screenshots/main_screen.png" width="200"> | <img src="/images/screenshots/result_screen.png" width="200"> |
+| <img src="/shared/src/commonMain/resources/splash_screen.png" width="200"> | <img src="/shared/src/commonMain/resources/main_screen.png" width="200"> | <img src="/shared/src/commonMain/resources/result_screen.png" width="200"> |
 ### Videos
 [![Video 1](/images/screenshots/video_1.png)](https://www.youtube.com/watch?v=3Q3z1vz3J8k)
