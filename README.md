@@ -12,4 +12,4 @@ parking easier. It is available on the Google Play Store.
 | --- | --- | --- |
 | <img src="/shared/src/commonMain/resources/splash_screen.png" width="200"> | <img src="/shared/src/commonMain/resources/main_screen.png" width="200"> | <img src="/shared/src/commonMain/resources/result_screen.png" width="200"> |
 ### Videos
-[![Video 1](/images/screenshots/video_1.png)](https://youtu.be/X1MTLSB69po)
+[![Video 1](/composeApp/src/androidMain/ic_launcher-playstore.png)](https://youtu.be/kK1j4csijGg?si=GR3u65zPF0EB7lLt)
