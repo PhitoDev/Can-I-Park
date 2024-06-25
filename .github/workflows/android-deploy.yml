@@ -2,9 +2,6 @@ name: AndroidDeploy
 run-name: Deploy AAB to Play Store
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
