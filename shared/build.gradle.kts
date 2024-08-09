@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.utils.addToStdlib.butIf
 import java.util.Properties
 
@@ -25,10 +27,9 @@ buildConfig {
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
     
@@ -44,11 +45,12 @@ kotlin {
     }
     
     sourceSets {
+
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization)
             ///implementation(libs.bundles.ktor.client)
             implementation(libs.bundles.koin)
-            implementation(libs.kermit)
+            api(libs.kermit)
             implementation(libs.kotlinx.datetime)
         }
         androidMain.dependencies {
