@@ -1,20 +1,22 @@
 package data
 
 import Utils.getCurrentSystemTime
+import android.graphics.BitmapFactory
 import co.touchlab.kermit.Logger
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.Content
 import domain.entities.ImageDetails
 import domain.entities.ParkingResponse
-import domain.repositories.LLMDataSource
-import domain.repositories.ParkingSignsRepository
+import domain.repositories.LLMRepository
 import kotlinx.serialization.json.Json
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
-class ParkingSignsRepositoryImpl(
-    private val llmDataSource: LLMDataSource
-): ParkingSignsRepository {
+class AndroidLLMRepository(private val generativeModel: GenerativeModel) : LLMRepository {
 
     override suspend fun analyzeImage(request: ImageDetails): Result<ParkingResponse> =
         runCatching {
-            val llmResponse = llmDataSource.generateResponse(
+            val llmResponse = generateResponse(
                 prompt = formatPrompt(),
                 imageDetails = request
             )
@@ -33,6 +35,19 @@ class ParkingSignsRepositoryImpl(
             Logger.e { message }
             throw Exception(message)
         }
+
+
+
+    @OptIn(ExperimentalEncodingApi::class)
+    private suspend fun generateResponse(prompt: String, imageDetails: ImageDetails): String {
+        val builder = Content.Builder()
+        val  byteArray = Base64.decode(imageDetails.encodedBitmap)
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        builder.image(bitmap)
+        builder.text(prompt)
+        val response = generativeModel.generateContent(builder.build())
+        return response.text ?: throw IllegalStateException("Response is null")
+    }
 
     /**
      * This function takes  The text from an ocr analyzer and formats it into a prompt for the language model.

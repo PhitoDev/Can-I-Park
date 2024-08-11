@@ -29,5 +29,5 @@ val appModule = module {
             produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) }
         )
     }
-    viewModel { CameraViewModel(get(), get()) }
+    viewModel { CameraViewModel(get(), get(), get()) }
 }

@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.dugue.canipark.R
+import com.dugue.canipark.ui.camera.AppEvent
+import com.dugue.canipark.ui.camera.MessageDismissed
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 
@@ -63,9 +65,9 @@ fun LoadingDialog() {
 fun MessageDialog(
     message: String,
     isPositive: Boolean,
-    onDismiss: () -> Unit
+    onEvent: (event: AppEvent) -> Unit
 ) {
-    Dialog(onDismissRequest = { onDismiss() }) {
+    Dialog(onDismissRequest = { onEvent(MessageDismissed) }) {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -111,7 +113,7 @@ fun MessageDialog(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
-                        onClick = onDismiss
+                        onClick = { onEvent(MessageDismissed) }
                     ) {
                         Text("OK")
                     }

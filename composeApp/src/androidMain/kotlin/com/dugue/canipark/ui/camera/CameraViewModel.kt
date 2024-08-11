@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
-import domain.entities.ImageDetails
 import domain.entities.ParkingResponse
+import domain.repositories.CameraRepository
 import domain.repositories.PreferencesRepository
-import domain.repositories.ParkingSignsRepository
+import domain.repositories.LLMRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
 
 class CameraViewModel(
     private val preferencesRepository: PreferencesRepository,
-    private val repository: ParkingSignsRepository
+    private val cameraRepository: CameraRepository,
+    private val repository: LLMRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CameraUIState())
@@ -33,14 +34,14 @@ class CameraViewModel(
         _uiState.value
     )
 
-    private val _events = MutableSharedFlow<CameraEvent>()
+    private val _events = MutableSharedFlow<AppEvent>()
     private val events = _events.asSharedFlow()
 
     init {
         subscribeToEvents()
     }
 
-    fun onEvent(event: CameraEvent) {
+    fun onEvent(event: AppEvent) {
         viewModelScope.launch(Dispatchers.IO) {
             _events.emit(event)
         }
@@ -49,12 +50,16 @@ class CameraViewModel(
     private fun subscribeToEvents() {
         events.onEach { event ->
             when (event) {
-                is CameraEvent.PictureTaken -> pictureTaken(event.imageDetails)
-                is CameraEvent.MessageDismissed -> dismissResult()
-                is CameraEvent.PictureError -> _uiState.update {
-                    it.copy(cameraState = CameraState.Error(event.message))
+                PictureTaken -> pictureTaken()
+                MessageDismissed -> dismissResult()
+                is PictureError -> _uiState.update {
+                    it.copy(appState = AppState.Error(event.message))
                 }
-                is CameraEvent.DisclaimerChecked -> disclaimerChecked()
+                DisclaimerChecked -> disclaimerChecked()
+                is ShowCamera -> {
+                    _uiState.update { it.copy(appState = AppState.ShowingCamera) }
+                    cameraRepository.startCamera(event.view)
+                }
             }
         }
             .flowOn(Dispatchers.IO)
@@ -62,41 +67,43 @@ class CameraViewModel(
     }
 
     private suspend fun disclaimerChecked() {
-        val userHasSeen = preferencesRepository.hasUserSeenDisclaimer()
+        val userHasSeen = preferencesRepository.hasUserSeenDisclaimer().getOrDefault(false)
         if (!userHasSeen) {
             _uiState.update {
                 val disclaimer = preferencesRepository.getDisclaimer()
-                it.copy(cameraState = CameraState.ShowingDisclaimer(disclaimer.message))
+                it.copy(appState = AppState.ShowingDisclaimer(disclaimer.message))
             }
             preferencesRepository.markDisclaimerShown()
         } else {
-            _uiState.update { it.copy(cameraState = CameraState.ShowingCamera) }
+            _uiState.update { it.copy(appState = AppState.ShowingCamera) }
         }
     }
 
-    private suspend fun pictureTaken(imageDetails: ImageDetails) {
-        _uiState.update { it.copy(cameraState = CameraState.Loading) }
-        val result = repository.analyzeImage(imageDetails)
-        if (result.isSuccess) {
+    private suspend fun pictureTaken() {
+        _uiState.update { it.copy(appState = AppState.Loading) }
+        runCatching {
+            val imageDetails = cameraRepository.takePicture().getOrThrow()
+            val result = repository.analyzeImage(imageDetails).getOrThrow()
             _uiState.update {
                 it.copy(
-                    cameraState = if (result.getOrThrow().canIPark) {
-                        CameraState.ParkingAllowed(buildMessage(result.getOrThrow()))
+                    appState = if (result.canIPark) {
+                        AppState.ParkingAllowed(buildMessage(result))
                     } else {
-                        CameraState.ParkingNotAllowed(buildMessage(result.getOrThrow()))
+                        AppState.ParkingNotAllowed(buildMessage(result))
                     }
                 )
             }
-        } else {
-            _uiState.update {
-                result.exceptionOrNull()?.let { e -> Firebase.crashlytics.recordException(e) }
-                it.copy(cameraState = CameraState.Error(result.exceptionOrNull()!!.localizedMessage))
-            }
         }
+            .onFailure { exception ->
+                Firebase.crashlytics.recordException(exception)
+                _uiState.update {
+                    it.copy(appState = AppState.Error(exception.localizedMessage ?: "Unknown error"))
+                }
+            }
     }
 
-    private suspend fun dismissResult() {
-        _uiState.update { it.copy(cameraState = CameraState.ShowingCamera) }
+    private fun dismissResult() {
+        _uiState.update { it.copy(appState = AppState.ShowingCamera) }
     }
 
     private fun buildMessage(parkingResponse: ParkingResponse): String {

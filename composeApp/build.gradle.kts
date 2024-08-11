@@ -78,7 +78,13 @@ android {
     }
     signingConfigs {
         create("release") {
-            if (releaseStoreFile.isNotEmpty() && releaseKeyAlias.isNotEmpty() && releaseStorePassword.isNotEmpty() && releaseKeyPassword.isNotEmpty()) {
+            val storeCredentials = listOf(
+                releaseStoreFile,
+                releaseKeyAlias,
+                releaseStorePassword,
+                releaseKeyPassword
+            )
+            if (storeCredentials.all { it.isNotEmpty() }) {
                 storeFile = file(releaseStoreFile)
                 storePassword = releaseStorePassword
                 keyAlias = releaseKeyAlias

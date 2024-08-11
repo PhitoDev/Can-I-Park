@@ -3,6 +3,6 @@ package domain.repositories
 import domain.entities.ImageDetails
 import domain.entities.ParkingResponse
 
-interface ParkingSignsRepository {
+interface LLMRepository {
     suspend fun analyzeImage(request: ImageDetails): Result<ParkingResponse>
 }

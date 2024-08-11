@@ -39,52 +39,43 @@ fun CameraUIPreview() {
 
 @Composable
 fun CameraScreen(
-    cameraState: CameraState,
-    onCameraReady: (view: PreviewView) -> Unit = {},
-    onPictureTaken: () -> Unit = {},
-    onDismiss: () -> Unit = {},
-    onAdViewReady: (adView: AdView) -> Unit = {}
+    appState: AppState,
+    onEvent: (event: AppEvent) -> Unit,
 ) {
-    when (cameraState) {
-        is CameraState.Error -> MessageDialog(
+    when (appState) {
+        is AppState.Error -> MessageDialog(
             message = stringResource(R.string.image_analysis_error),
             isPositive = false,
-            onDismiss = onDismiss
+            onEvent = onEvent
         )
-        CameraState.Idle -> {
+        AppState.Idle -> {
             Box {  }
         }
-        CameraState.Loading -> LoadingDialog()
-        is CameraState.ParkingNotAllowed -> MessageDialog(
-            message = cameraState.message,
+        AppState.Loading -> LoadingDialog()
+        is AppState.ParkingNotAllowed -> MessageDialog(
+            message = appState.message,
             isPositive = false,
-            onDismiss = onDismiss
+            onEvent = onEvent
         )
-        is CameraState.ParkingAllowed -> MessageDialog(
-            message = cameraState.message,
+        is AppState.ParkingAllowed -> MessageDialog(
+            message = appState.message,
             isPositive = true,
-            onDismiss = onDismiss
+            onEvent = onEvent
         )
 
-        is CameraState.ShowingDisclaimer -> MessageDialog(
-            message = cameraState.message,
+        is AppState.ShowingDisclaimer -> MessageDialog(
+            message = appState.message,
             isPositive = false,
-            onDismiss = onDismiss
+            onEvent = onEvent
         )
 
-        CameraState.ShowingCamera -> CameraUI(
-            onCameraReady = onCameraReady,
-            onPictureTaken = onPictureTaken,
-            onAdViewReady = onAdViewReady
-        )
+        AppState.ShowingCamera -> CameraUI(onEvent = onEvent)
     }
 }
 
 @Composable
 private fun CameraUI(
-    onCameraReady: (view: PreviewView) -> Unit = {},
-    onPictureTaken: () -> Unit = {},
-    onAdViewReady: (adView: AdView) -> Unit = {}
+    onEvent: (event: AppEvent) -> Unit = {},
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -104,7 +95,7 @@ private fun CameraUI(
                 }
             },
             update = { view ->
-                onAdViewReady(view)
+                //onAdViewReady(view)
             }
         )
         CameraFrame(
@@ -119,7 +110,7 @@ private fun CameraUI(
                     PreviewView(context)
                 },
                 update = { view ->
-                    onCameraReady(view)
+                    onEvent(ShowCamera(view))
                 }
             )
         }
@@ -134,7 +125,7 @@ private fun CameraUI(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 FloatingActionButton(
-                    onClick = onPictureTaken,
+                    onClick = { onEvent(PictureTaken) },
                     modifier = Modifier.size(64.dp).alpha(0.8f),
                     containerColor = MaterialTheme.colorScheme.primary,
                 ) {
