@@ -1,9 +1,10 @@
 package data
 
 import domain.entities.Disclaimer
-import domain.repositories.DisclaimerRepository
+import domain.repositories.PreferencesDataSource
+import domain.repositories.PreferencesRepository
 
-class DisclaimerRepositoryImpl(private val userPreferences: UserPreferences) : DisclaimerRepository {
+class PreferencesRepositoryImpl(private val preferencesDataSource: PreferencesDataSource) : PreferencesRepository {
     override fun getDisclaimer(): Disclaimer = Disclaimer(
         """
             This app is for informational purposes only, and is highly experimental. It uses 
@@ -15,8 +16,15 @@ class DisclaimerRepositoryImpl(private val userPreferences: UserPreferences) : D
     )
 
     override suspend fun markDisclaimerShown() {
-        userPreferences.setUserHasSeenDisclaimer()
+        preferencesDataSource.setBooleanPreference(PreferencesDataSource.USER_HAS_SEEN_DISCLAIMER, true)
     }
 
-    override suspend fun hasUserSeenDisclaimer(): Boolean = userPreferences.hasUserSeenDisclaimer()
+    override suspend fun hasUserSeenDisclaimer(): Boolean {
+        val result = preferencesDataSource.getBooleanPreference(PreferencesDataSource.USER_HAS_SEEN_DISCLAIMER)
+        return if (result.isSuccess) {
+            result.getOrThrow() as Boolean
+        } else {
+            false
+        }
+    }
 }

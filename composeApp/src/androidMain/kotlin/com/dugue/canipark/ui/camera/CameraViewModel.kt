@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.crashlytics.crashlytics
-import domain.entities.ParkingRequest
+import domain.entities.ImageDetails
 import domain.entities.ParkingResponse
-import domain.repositories.DisclaimerRepository
+import domain.repositories.PreferencesRepository
 import domain.repositories.ParkingSignsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CameraViewModel(
-    private val disclaimerRepository: DisclaimerRepository,
+    private val preferencesRepository: PreferencesRepository,
     private val repository: ParkingSignsRepository
 ) : ViewModel() {
 
@@ -49,12 +49,11 @@ class CameraViewModel(
     private fun subscribeToEvents() {
         events.onEach { event ->
             when (event) {
-                is CameraEvent.PictureTaken -> pictureTaken(event.parkingRequest)
+                is CameraEvent.PictureTaken -> pictureTaken(event.imageDetails)
                 is CameraEvent.MessageDismissed -> dismissResult()
                 is CameraEvent.PictureError -> _uiState.update {
                     it.copy(cameraState = CameraState.Error(event.message))
                 }
-                is CameraEvent.PictureTakenBitmap -> pictureTaken(event.parkingRequest)
                 is CameraEvent.DisclaimerChecked -> disclaimerChecked()
             }
         }
@@ -63,21 +62,21 @@ class CameraViewModel(
     }
 
     private suspend fun disclaimerChecked() {
-        val userHasSeen = disclaimerRepository.hasUserSeenDisclaimer()
+        val userHasSeen = preferencesRepository.hasUserSeenDisclaimer()
         if (!userHasSeen) {
             _uiState.update {
-                val disclaimer = disclaimerRepository.getDisclaimer()
+                val disclaimer = preferencesRepository.getDisclaimer()
                 it.copy(cameraState = CameraState.ShowingDisclaimer(disclaimer.message))
             }
-            disclaimerRepository.markDisclaimerShown()
+            preferencesRepository.markDisclaimerShown()
         } else {
             _uiState.update { it.copy(cameraState = CameraState.ShowingCamera) }
         }
     }
 
-    private suspend fun pictureTaken(parkingRequest: ParkingRequest) {
+    private suspend fun pictureTaken(imageDetails: ImageDetails) {
         _uiState.update { it.copy(cameraState = CameraState.Loading) }
-        val result = repository.analyzeParkingSigns(parkingRequest)
+        val result = repository.analyzeImage(imageDetails)
         if (result.isSuccess) {
             _uiState.update {
                 it.copy(

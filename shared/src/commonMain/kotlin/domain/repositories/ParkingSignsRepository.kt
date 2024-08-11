@@ -1,8 +1,8 @@
 package domain.repositories
 
-import domain.entities.ParkingRequest
+import domain.entities.ImageDetails
 import domain.entities.ParkingResponse
 
 interface ParkingSignsRepository {
-    suspend fun analyzeParkingSigns(request: ParkingRequest): Result<ParkingResponse>
+    suspend fun analyzeImage(request: ImageDetails): Result<ParkingResponse>
 }

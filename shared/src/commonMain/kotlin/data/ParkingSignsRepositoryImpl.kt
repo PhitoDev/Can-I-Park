@@ -2,27 +2,23 @@ package data
 
 import Utils.getCurrentSystemTime
 import co.touchlab.kermit.Logger
-import domain.entities.ParkingRequest
+import domain.entities.ImageDetails
 import domain.entities.ParkingResponse
+import domain.repositories.LLMDataSource
 import domain.repositories.ParkingSignsRepository
 import kotlinx.serialization.json.Json
 
 class ParkingSignsRepositoryImpl(
-    private val llmClient: LLMClient
+    private val llmDataSource: LLMDataSource
 ): ParkingSignsRepository {
 
-    override suspend fun analyzeParkingSigns(request: ParkingRequest): Result<ParkingResponse> =
-        try {
-            val llmResponse = llmClient.generateResponse(
+    override suspend fun analyzeImage(request: ImageDetails): Result<ParkingResponse> =
+        runCatching {
+            val llmResponse = llmDataSource.generateResponse(
                 prompt = formatPrompt(),
-                encodedBitmap = request.encodedBitmap,
-                rotationDegrees = request.rotationDegrees
+                imageDetails = request
             )
-            val parkingResponse = parkingResponseFromJson(llmResponse)
-            Result.success(parkingResponse)
-        } catch (e: Exception) {
-            Logger.e { e.message.toString() }
-            Result.failure(e)
+            parkingResponseFromJson(llmResponse)
         }
 
     private fun parkingResponseFromJson(llmResponse: String): ParkingResponse =

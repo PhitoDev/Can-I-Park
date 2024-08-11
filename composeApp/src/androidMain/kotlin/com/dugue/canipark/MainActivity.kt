@@ -29,7 +29,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
-import domain.entities.ParkingRequest
+import domain.entities.ImageDetails
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.ByteArrayOutputStream
 import kotlin.io.encoding.Base64
@@ -131,11 +131,11 @@ class MainActivity : ComponentActivity() {
             object : ImageCapture.OnImageCapturedCallback() {
                 override fun onCaptureSuccess(image: ImageProxy) {
                     val rotationDegrees = image.imageInfo.rotationDegrees
-                    val parkingRequest = ParkingRequest(
+                    val imageDetails = ImageDetails(
                         encodedBitmap = encodeBitmapToString(image.toBitmap()),
                         rotationDegrees = rotationDegrees
                     )
-                    viewModel.onEvent(CameraEvent.PictureTakenBitmap(parkingRequest))
+                    viewModel.onEvent(CameraEvent.PictureTaken(imageDetails))
                     image.close()
                 }
 

@@ -1,6 +1,6 @@
 package domain.entities
 
-data class ParkingRequest(
+data class ImageDetails(
     val encodedBitmap: String,
     val rotationDegrees: Int
 )

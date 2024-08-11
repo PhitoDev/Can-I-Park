@@ -1,12 +1,12 @@
 package di.modules
 
-import data.DisclaimerRepositoryImpl
+import data.PreferencesRepositoryImpl
 import data.ParkingSignsRepositoryImpl
-import domain.repositories.DisclaimerRepository
+import domain.repositories.PreferencesRepository
 import domain.repositories.ParkingSignsRepository
 import org.koin.dsl.module
 
 val sharedModules = module {
-    single<DisclaimerRepository> { DisclaimerRepositoryImpl(get()) }
+    single<PreferencesRepository> { PreferencesRepositoryImpl(get()) }
     single<ParkingSignsRepository> { ParkingSignsRepositoryImpl(get())}
 }
